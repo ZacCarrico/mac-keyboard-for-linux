@@ -54,23 +54,6 @@ else
     echo "Toshy is already installed."
 fi
 
-# Fix toshy-config.service startup delay on GNOME
-# The service starts before XDG_SESSION_TYPE is exported, causing ~2min of retries on login.
-# This drop-in makes it wait for gnome-session-initialized.target first.
-DROPIN_DIR="$HOME/.config/systemd/user/toshy-config.service.d"
-DROPIN_FILE="$DROPIN_DIR/wait-for-session.conf"
-if [ ! -f "$DROPIN_FILE" ]; then
-    echo
-    echo "Fixing toshy-config.service startup delay..."
-    mkdir -p "$DROPIN_DIR"
-    cat > "$DROPIN_FILE" <<'EOF'
-[Unit]
-After=gnome-session-initialized.target
-EOF
-    systemctl --user daemon-reload
-    echo "Done."
-fi
-
 # Apply settings
 echo
 echo "Applying keyboard settings..."
