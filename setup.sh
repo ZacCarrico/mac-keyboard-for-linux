@@ -66,6 +66,7 @@ if [ ! -f "$DROPIN_FILE" ]; then
     cat > "$DROPIN_FILE" <<'EOF'
 [Unit]
 After=gnome-session-initialized.target
+Wants=gnome-session-initialized.target
 EOF
     systemctl --user daemon-reload
     echo "Done."
